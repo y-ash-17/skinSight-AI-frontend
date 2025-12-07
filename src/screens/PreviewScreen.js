@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,10 +9,10 @@ import {
   ActivityIndicator,
   Platform,
   Alert,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 export const PreviewScreen = ({ navigation, route }) => {
   const { imageUri } = route.params;
@@ -25,24 +25,24 @@ export const PreviewScreen = ({ navigation, route }) => {
   };
 
   const handleAnalyze = async () => {
-    console.log('🚀 Analyze button clicked');
-    console.log('📸 Image URI:', imageUri);
-    
+    console.log("🚀 Analyze button clicked");
+    console.log("📸 Image URI:", imageUri);
+
     try {
       setIsAnalyzing(true);
-      console.log('⏳ Set isAnalyzing to true');
+      console.log("⏳ Set isAnalyzing to true");
 
       const formData = new FormData();
-    
-      console.log('📦 Creating FormData with URI:', imageUri);
-      
+
+      console.log("📦 Creating FormData with URI:", imageUri);
+
       formData.append("file", {
         uri: imageUri,
         name: "skin_image.jpg",
         type: "image/jpeg",
       });
-      
-      const API_URL = "https://3q71dqfv-8000.inc1.devtunnels.ms/api/predict";
+
+      const API_URL = "https://skinsight-ai-backend.onrender.com/api/predict";
 
       console.log("📡 Sending request to backend:", API_URL);
 
@@ -62,19 +62,16 @@ export const PreviewScreen = ({ navigation, route }) => {
 
       console.log("✨ API Response:", JSON.stringify(data, null, 2));
       setAnalysisResult(data);
-      
+
       // Success! Now show the "View Results" button
-      console.log('✅ Analysis complete, showing results button');
-      
+      console.log("✅ Analysis complete, showing results button");
     } catch (error) {
       console.error("❌ Error analyzing image:", error);
       console.error("Error details:", error.message);
       Alert.alert(
         "Analysis Failed",
         "Something went wrong during analysis. Please try again.",
-        [
-          { text: "OK", onPress: () => setIsAnalyzing(false) }
-        ]
+        [{ text: "OK", onPress: () => setIsAnalyzing(false) }]
       );
     } finally {
       setIsAnalyzing(false);
@@ -82,8 +79,8 @@ export const PreviewScreen = ({ navigation, route }) => {
   };
 
   const handleViewResults = () => {
-    console.log('🎯 Navigating to results screen');
-    navigation.navigate('Analysis', { analysisResult });
+    console.log("🎯 Navigating to results screen");
+    navigation.navigate("Analysis", { analysisResult });
   };
 
   return (
@@ -98,11 +95,11 @@ export const PreviewScreen = ({ navigation, route }) => {
       </View>
 
       {/* Top Header */}
-      <SafeAreaView style={styles.topOverlay} edges={['top']}>
+      <SafeAreaView style={styles.topOverlay} edges={["top"]}>
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.closeButton}
-            onPress={() => navigation.navigate('Upload')}
+            onPress={() => navigation.navigate("Upload")}
             activeOpacity={0.8}
             disabled={isAnalyzing}
           >
@@ -122,14 +119,14 @@ export const PreviewScreen = ({ navigation, route }) => {
           <View style={styles.loadingBox}>
             <ActivityIndicator size="large" color="#10B981" />
             <Text style={styles.loadingText}>
-              Our AI model is analyzing...{'\n'}Please wait
+              Our AI model is analyzing...{"\n"}Please wait
             </Text>
           </View>
         </View>
       )}
 
       {/* Bottom Actions */}
-      <SafeAreaView style={styles.bottomOverlay} edges={['bottom']}>
+      <SafeAreaView style={styles.bottomOverlay} edges={["bottom"]}>
         <View style={styles.actions}>
           {/* Show different buttons based on state */}
           {!analysisResult ? (
@@ -147,13 +144,16 @@ export const PreviewScreen = ({ navigation, route }) => {
 
               {/* Analyze Button */}
               <TouchableOpacity
-                style={[styles.analyzeButton, isAnalyzing && styles.buttonDisabled]}
+                style={[
+                  styles.analyzeButton,
+                  isAnalyzing && styles.buttonDisabled,
+                ]}
                 onPress={handleAnalyze}
                 activeOpacity={0.8}
                 disabled={isAnalyzing}
               >
                 <Text style={styles.analyzeButtonText}>
-                  {isAnalyzing ? 'Analyzing...' : 'Analyze Photo →'}
+                  {isAnalyzing ? "Analyzing..." : "Analyze Photo →"}
                 </Text>
               </TouchableOpacity>
             </>
@@ -188,98 +188,98 @@ export const PreviewScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
   },
   imageContainer: {
     flex: 0.9,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#000000',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000000",
   },
   image: {
     width: width,
     height: height,
   },
   topOverlay: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 12,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     height: 50,
   },
   closeButton: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   closeButtonText: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     fontSize: 24,
-    fontWeight: '300',
+    fontWeight: "300",
   },
   headerTextContainer: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   headerTitle: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   headerSubtitle: {
-    color: '#E2E8F0',
+    color: "#E2E8F0",
     fontSize: 12,
-    fontWeight: '400',
+    fontWeight: "400",
     marginTop: 2,
   },
   placeholder: {
     width: 40,
   },
   loadingOverlay: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    justifyContent: "center",
+    alignItems: "center",
     zIndex: 10,
   },
   loadingBox: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     borderRadius: 20,
     padding: 32,
-    alignItems: 'center',
+    alignItems: "center",
     minWidth: 200,
   },
   loadingText: {
     marginTop: 20,
     fontSize: 16,
-    color: '#64748B',
-    textAlign: 'center',
+    color: "#64748B",
+    textAlign: "center",
     lineHeight: 24,
   },
   bottomOverlay: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   actions: {
-    backgroundColor: '#F0F8FF',
+    backgroundColor: "#F0F8FF",
     paddingHorizontal: 24,
     paddingTop: 20,
     paddingBottom: 12,
@@ -288,14 +288,14 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   retakeButton: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     borderRadius: 16,
     padding: 16,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
     borderWidth: 2,
-    borderColor: '#E2E8F0',
+    borderColor: "#E2E8F0",
   },
   retakeIcon: {
     fontSize: 20,
@@ -303,15 +303,15 @@ const styles = StyleSheet.create({
   },
   retakeButtonText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#475569',
+    fontWeight: "600",
+    color: "#475569",
   },
   analyzeButton: {
-    backgroundColor: '#10B981',
+    backgroundColor: "#10B981",
     borderRadius: 16,
     padding: 18,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 4,
@@ -322,18 +322,18 @@ const styles = StyleSheet.create({
   },
   analyzeButtonText: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#FFFFFF',
+    fontWeight: "600",
+    color: "#FFFFFF",
   },
   buttonDisabled: {
     opacity: 0.6,
   },
   viewResultsButton: {
-    backgroundColor: '#3B82F6',
+    backgroundColor: "#3B82F6",
     borderRadius: 16,
     padding: 18,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 4,
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
   },
   viewResultsButtonText: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#FFFFFF',
+    fontWeight: "600",
+    color: "#FFFFFF",
   },
 });
